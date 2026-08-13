@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FreeTrialSite.com — Find Free Trials. Fast.</title>
+<meta name="description" content="Browse verified free trials and free plans from leading AI, software and online business tools.">
+<style>
+  :root{
+    --bg:#f8fafc;
+    --card:#ffffff;
+    --text:#0f172a;
+    --muted:#475569;
+    --faint:#64748b;
+    --border:#e2e8f0;
+    --accent:#334155;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+  }
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+  /* Header */
+  header.site{padding:44px 0 26px;text-align:center}
+  .brand{font-size:0.95rem;font-weight:600;letter-spacing:0.04em;color:var(--faint);text-transform:uppercase}
+  h1{font-size:clamp(1.9rem,4.5vw,2.8rem);font-weight:800;letter-spacing:-0.02em;margin:10px 0 10px}
+  .intro{max-width:620px;margin:0 auto;color:var(--muted);font-size:1.02rem}
+
+  /* Search */
+  .search-area{max-width:640px;margin:22px auto 14px;padding:0 20px}
+  .search-box{position:relative}
+  .search-box input{
+    width:100%;
+    padding:14px 18px;
+    font-size:1rem;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--card);
+    color:var(--text);
+    outline:none;
+  }
+  .search-box input:focus{border-color:#94a3b8;box-shadow:0 0 0 3px rgba(100,116,139,0.15)}
+  .result-count{
+    text-align:center;
+    color:var(--faint);
+    font-size:0.86rem;
+    margin-top:8px;
+    min-height:1.2em;
+  }
+
+  /* Sticky category nav */
+  nav.cats{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(248,250,252,0.94);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--border);
+  }
+  nav.cats .inner{
+    max-width:1120px;
+    margin:0 auto;
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    padding:10px 20px;
+    scrollbar-width:thin;
+  }
+  nav.cats a{
+    flex:0 0 auto;
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:7px 13px;
+    font-size:0.85rem;
+    font-weight:600;
+    color:var(--muted);
+    text-decoration:none;
+    border:1px solid var(--border);
+    border-radius:999px;
+    background:var(--card);
+    white-space:nowrap;
+  }
+  nav.cats a .dot{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--catcolor,#94a3b8);
+    flex:0 0 auto;
+  }
+  nav.cats a:hover{border-color:#cbd5e1}
+  nav.cats a.active{
+    color:var(--catcolor,#334155);
+    border-color:var(--catcolor,#94a3b8);
+  }
+  nav.cats a:focus-visible{outline:2px solid #334155;outline-offset:2px}
+
+  /* Category sections */
+  main{padding:10px 0 40px}
+  section.category{scroll-margin-top:72px;padding-top:30px}
+  section.category > h2{
+    font-size:1.3rem;
+    font-weight:700;
+    padding-left:12px;
+    border-left:4px solid var(--accent);
+    margin-bottom:16px;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(310px,1fr));
+    gap:16px;
+  }
+
+  /* Product card */
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+  }
+  .card h3{font-size:1.08rem;font-weight:700;margin-bottom:8px}
+  .card p.desc{color:var(--muted);font-size:0.92rem;margin-bottom:14px}
+  .facts{
+    border-top:1px solid var(--border);
+    padding-top:12px;
+    margin-bottom:16px;
+    font-size:0.85rem;
+  }
+  .facts .facts-title{
+    font-size:0.72rem;
+    font-weight:700;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:var(--faint);
+    margin-bottom:8px;
+  }
+  .facts dl{display:grid;grid-template-columns:auto 1fr;column-gap:14px;row-gap:4px}
+  .facts dt{color:var(--faint)}
+  .facts dd{color:var(--text);text-align:right}
+  .card .cta{
+    margin-top:auto;
+    display:block;
+    text-align:center;
+    padding:11px 14px;
+    font-size:0.93rem;
+    font-weight:600;
+    color:#ffffff;
+    background:var(--accent);
+    border-radius:8px;
+    text-decoration:none;
+  }
+  .card .cta:hover{filter:brightness(1.08)}
+  .card .cta:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+
+  .no-results{
+    display:none;
+    text-align:center;
+    color:var(--faint);
+    padding:60px 20px;
+    font-size:1rem;
+  }
+  .no-results.show{display:block}
+
+  /* Footer */
+  footer.site{
+    border-top:1px solid var(--border);
+    background:var(--card);
+    padding:40px 0 32px;
+    font-size:0.87rem;
+    color:var(--muted);
+  }
+  footer.site .cols{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:28px;
+  }
+  footer.site h4{
+    font-size:0.82rem;
+    font-weight:700;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    color:var(--text);
+    margin-bottom:8px;
+  }
+  footer.site .copy{
+    margin-top:28px;
+    padding-top:18px;
+    border-top:1px solid var(--border);
+    text-align:center;
+    color:var(--faint);
+    font-size:0.8rem;
+  }
+  footer.site .copy a{color:var(--muted);text-decoration:underline}
+  footer.site .copy .sep{margin:0 8px;color:var(--border)}
+
+  /* Privacy Policy (separate view) */
+  .policy{max-width:760px;padding-top:44px;padding-bottom:8px}
+  .policy .back{
+    display:inline-block;
+    margin-bottom:22px;
+    color:var(--faint);
+    font-size:0.85rem;
+    text-decoration:none;
+  }
+  .policy .back:hover{color:var(--muted)}
+  .policy h2{
+    font-size:clamp(1.5rem,3.5vw,2rem);
+    font-weight:800;
+    letter-spacing:-0.02em;
+    color:var(--text);
+    margin-bottom:6px;
+  }
+  .policy .updated{color:var(--faint);font-size:0.85rem;margin-bottom:26px}
+  .policy h3{
+    font-size:1.02rem;
+    font-weight:700;
+    color:var(--text);
+    margin:24px 0 6px;
+  }
+  .policy p{color:var(--muted);font-size:0.96rem;margin-bottom:12px}
+  .policy ul{color:var(--muted);font-size:0.96rem;margin:0 0 12px 20px}
+  .policy li{margin-bottom:6px}
+
+  @media (max-width:520px){
+    header.site{padding:32px 0 18px}
+    .grid{grid-template-columns:1fr}
+    .facts dd{text-align:right}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <div class="brand">FreeTrialSite.com</div>
+    <h1>Find Free Trials. Fast.</h1>
+    <p class="intro">Browse verified free trials and free plans from leading AI, software and online business tools.</p>
+  </div>
+</header>
+
+<div class="search-area">
+  <div class="search-box">
+    <label for="search" class="sr-only" style="position:absolute;left:-9999px">Search the directory</label>
+    <input type="search" id="search" placeholder="Search by product, category or keyword…" autocomplete="off">
+  </div>
+  <div class="result-count" id="resultCount" aria-live="polite"></div>
+</div>
+
+<nav class="cats" aria-label="Categories">
+  <div class="inner" id="catNav"></div>
+</nav>
+
+<main class="wrap">
+  <div id="directory"></div>
+  <div class="no-results" id="noResults">No products match your search.</div>
+</main>
+
+<section id="privacyPolicy" class="wrap policy" aria-label="Privacy Policy" hidden>
+  <a href="#" class="back" id="privacyBack">&larr; Back to directory</a>
+  <h2>Privacy Policy</h2>
+  <p class="updated">Last updated: August 2026</p>
+
+  <p>FreeTrialSite.com is a simple, static directory that organises and links to third-party AI, software and online business tools. Because of how the site works, it collects very little information from visitors.</p>
+
+  <h3>Information we do not collect</h3>
+  <ul>
+    <li>FreeTrialSite.com does not require user registration and has no user accounts or logins.</li>
+    <li>We do not collect personal information through forms. The site has no sign-up, contact or enquiry forms.</li>
+    <li>We do not operate a newsletter or mailing list.</li>
+    <li>We do not allow comments or any other user-submitted content.</li>
+  </ul>
+
+  <h3>How the website works</h3>
+  <p>The website simply provides an organised set of links to third-party websites. We do not host the products or services listed, and using the directory itself does not require you to provide any personal details.</p>
+
+  <h3>External links</h3>
+  <p>Clicking an external link will take you to a third-party website that has its own privacy policy and terms. We are not responsible for the privacy practices or the content of those external websites, and we encourage you to review their policies before providing any information to them.</p>
+
+  <h3>Cookies and analytics</h3>
+  <p>This website does not currently use cookies, analytics or other tracking technologies, and it does not build profiles of its visitors. If this changes in the future, this Privacy Policy will be updated to explain what is used and why.</p>
+
+  <h3>Changes to this policy</h3>
+  <p>Because the site does not collect personal data, there is no personal data for us to access, correct or delete. If we introduce any feature in the future that collects information, we will update this Privacy Policy accordingly.</p>
+</section>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h4>Information Accuracy</h4>
+        <p>We aim to keep product information accurate and up to date. Free plans, free trials and pricing are checked against official sources where possible but may change without notice. Please refer to the provider's website for the latest information.</p>
+      </div>
+      <div>
+        <h4>Affiliate Disclosure</h4>
+        <p>FreeTrialSite.com may earn a commission from qualifying purchases made through some links on this website. This does not affect the price you pay or influence which products are included in our directory.</p>
+      </div>
+      <div>
+        <h4>Trademark Notice</h4>
+        <p>All company names, product names and trademarks belong to their respective owners and are used solely for identification purposes.</p>
+      </div>
+    </div>
+    <div class="copy">&copy; 2026 FreeTrialSite.com<span class="sep">&middot;</span><a href="#privacyPolicy" id="privacyLink">Privacy Policy</a></div>
+  </div>
+</footer>
+
+<script>
+"use strict";
+
+/* ============================================================
+   CATEGORIES
+   Order follows the research dataset. Each category has a
+   subtle colour accent used for headings, nav and buttons.
+   ============================================================ */
+const categories = [
+  { name: "AI Writing Assistants & Browser Copilots", color: "#4f46e5" },
+  { name: "SEO & Growth Marketing AI",                color: "#0d9488" },
+  { name: "Design & Image AI",                        color: "#db2777" },
+  { name: "Creative-Suite AI Applications",           color: "#7c3aed" },
+  { name: "Video & Avatar AI",                        color: "#dc2626" },
+  { name: "Voice, Audio & Podcast AI",                color: "#ea580c" },
+  { name: "Meeting Intelligence AI",                  color: "#2563eb" },
+  { name: "AI Website & Store Builders",              color: "#16a34a" },
+  { name: "Customer Engagement, Chatbots & Email AI", color: "#0e7490" }
+];
+
+/* ============================================================
+   PRODUCTS
+   To add, remove or update a product, edit this array only.
+   The page renders itself automatically.
+   ============================================================ */
+const products = [
+
+  /* ---- AI Writing Assistants & Browser Copilots ---- */
+  {
+    name: "Taskade",
+    category: "AI Writing Assistants & Browser Copilots",
+    description: "Taskade is an AI workspace for tasks, agents, automations, and app building. It combines project organisation with AI-assisted workflows in a single collaborative environment.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$6/mo",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://www.taskade.com/"
+  },
+  {
+    name: "Writesonic",
+    category: "AI Writing Assistants & Browser Copilots",
+    description: "Writesonic is an AI content, SEO, and AI-search visibility platform. It is used to produce written content and monitor how a brand appears across search and AI platforms.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$79/mo",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://writesonic.com/"
+  },
+  {
+    name: "Botsonic",
+    category: "AI Writing Assistants & Browser Copilots",
+    description: "Botsonic is an AI agent and chatbot builder from Writesonic. It lets businesses train chatbots on their own content and deploy them for customer-facing conversations.",
+    freePlan: "No",
+    freeTrial: "Yes",
+    trialLength: "7 days",
+    creditCard: "No",
+    startingPrice: "$16/month (Starter)",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://botsonic.com/"
+  },
+  {
+    name: "Grammarly",
+    category: "AI Writing Assistants & Browser Copilots",
+    description: "Grammarly is an AI writing assistant for grammar, tone, rewriting, and text generation. It works across the browser and common writing apps to check and improve text as you write.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$12/month (Pro, billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://www.grammarly.com/"
+  },
+  {
+    name: "QuillBot",
+    category: "AI Writing Assistants & Browser Copilots",
+    description: "QuillBot provides AI paraphrasing, grammar checking, summarising, and writing tools. It is used to rework and refine existing text as well as draft new content.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$8.33/month (Premium, billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://quillbot.com/"
+  },
+  {
+    name: "Monica",
+    category: "AI Writing Assistants & Browser Copilots",
+    description: "Monica is a browser AI assistant for writing, summarising, and web workflows. It runs alongside the pages you visit to help draft, condense, and process content.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$8.30/month (Pro, billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://monica.im/"
+  },
+  {
+    name: "Merlin",
+    category: "AI Writing Assistants & Browser Copilots",
+    description: "Merlin is a browser AI assistant for writing, summarising, research, and chat. It brings AI capabilities into the browser so common tasks can be handled without switching tools.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$19/month (Pro, billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://www.getmerlin.in/"
+  },
+  {
+    name: "Jasper",
+    category: "AI Writing Assistants & Browser Copilots",
+    description: "Jasper is an AI platform for marketing content and campaign workflows. It is aimed at marketing teams producing on-brand content at scale.",
+    freePlan: "No",
+    freeTrial: "Yes",
+    trialLength: "7 days",
+    creditCard: "Yes",
+    startingPrice: "$59/month (Pro, billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://www.jasper.ai/"
+  },
+
+  /* ---- SEO & Growth Marketing AI ---- */
+  {
+    name: "Surfer",
+    category: "SEO & Growth Marketing AI",
+    description: "Surfer is an SEO and AI-search visibility tool for content optimisation and tracking. It analyses content against search performance to guide on-page improvements.",
+    freePlan: "No",
+    freeTrial: "No – 7-day money-back guarantee",
+    trialLength: "N/A",
+    creditCard: "Yes",
+    startingPrice: "$99/month (Essential; $79/month billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "View Product",
+    link: "https://surferseo.com/"
+  },
+  {
+    name: "Semrush",
+    category: "SEO & Growth Marketing AI",
+    description: "Semrush is an SEO, AI visibility, and digital marketing platform. It covers keyword research, competitor analysis, and visibility tracking across search and AI channels.",
+    freePlan: "Yes",
+    freeTrial: "Yes",
+    trialLength: "7 days",
+    creditCard: "Yes (for trial)",
+    startingPrice: "$139.95/month (Pro; $117.33/month billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://www.semrush.com/"
+  },
+  {
+    name: "Frase",
+    category: "SEO & Growth Marketing AI",
+    description: "Frase is an AI content research, writing, SEO, and GEO optimisation platform. It supports researching topics and producing content optimised for search and AI-driven results.",
+    freePlan: "No",
+    freeTrial: "Yes",
+    trialLength: "7 days",
+    creditCard: "No",
+    startingPrice: "$39/mo",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://www.frase.io/"
+  },
+  {
+    name: "AdCreative.ai",
+    category: "SEO & Growth Marketing AI",
+    description: "AdCreative.ai is an AI ad-creative generator and ad-performance tool. It produces advertising creatives and provides performance-focused insights for campaigns.",
+    freePlan: "No",
+    freeTrial: "Yes",
+    trialLength: "7 days",
+    creditCard: "Yes",
+    startingPrice: "$29/month (Starter)",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://www.adcreative.ai/"
+  },
+  {
+    name: "Simplified",
+    category: "SEO & Growth Marketing AI",
+    description: "Simplified is an AI writing, design, social, and marketing workflow platform. It brings several marketing content tasks together in one workspace.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "From $9/month (Pro, billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://simplified.com/"
+  },
+
+  /* ---- Design & Image AI ---- */
+  {
+    name: "Canva",
+    category: "Design & Image AI",
+    description: "Canva is an all-in-one design tool with AI-assisted creation. It is used to produce graphics, documents, and other visual content from templates and AI features.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$15/mo",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://www.canva.com/"
+  },
+  {
+    name: "Canva Business",
+    category: "Design & Image AI",
+    description: "Canva Business is Canva's AI design and brand toolkit for small teams. It adds team and brand management capabilities on top of the core design tool.",
+    freePlan: "No",
+    freeTrial: "Yes",
+    trialLength: "30 days",
+    creditCard: "Yes",
+    startingPrice: "$20/user/mo",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://www.canva.com/canva-business/"
+  },
+  {
+    name: "Adobe Express",
+    category: "Design & Image AI",
+    description: "Adobe Express is an AI-assisted web design, social, and lightweight creative app. It is Adobe's quick-creation tool for social graphics and everyday design tasks.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$9.99/mo",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://www.adobe.com/express/"
+  },
+  {
+    name: "Pixlr",
+    category: "Design & Image AI",
+    description: "Pixlr is a browser-based AI photo editor and image generator. It provides photo editing and image creation tools that run directly in the browser.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$1.99/mo",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://pixlr.com/"
+  },
+  {
+    name: "Designs.ai",
+    category: "Design & Image AI",
+    description: "Designs.ai is an AI-powered design suite covering images, video, and slides. It groups multiple AI creation tools into one platform.",
+    freePlan: "No",
+    freeTrial: "Yes",
+    trialLength: "7 days",
+    creditCard: "Yes",
+    startingPrice: "$39/mo",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://designs.ai/"
+  },
+  {
+    name: "Fotor",
+    category: "Design & Image AI",
+    description: "Fotor is an AI photo editing and design platform. It offers photo enhancement and design tools with both free access and a premium trial.",
+    freePlan: "Yes",
+    freeTrial: "Yes",
+    trialLength: "7 days (premium trial)",
+    creditCard: "Yes",
+    startingPrice: "$8.99/mo",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://www.fotor.com/"
+  },
+  {
+    name: "Cutout.Pro",
+    category: "Design & Image AI",
+    description: "Cutout.Pro provides AI photo and video editing, background removal, and content generation. It automates common visual editing tasks such as background removal and image enhancement.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$5.00/mo",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://www.cutout.pro/"
+  },
+
+  /* ---- Creative-Suite AI Applications ---- */
+  {
+    name: "Adobe Photoshop",
+    category: "Creative-Suite AI Applications",
+    description: "Adobe Photoshop is a professional image-editing app with Adobe generative AI features. It is the industry-standard tool for detailed photo and image work.",
+    freePlan: "No",
+    freeTrial: "Yes",
+    trialLength: "7 days",
+    creditCard: "Yes",
+    startingPrice: "$22.99/mo",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://www.adobe.com/products/photoshop.html"
+  },
+  {
+    name: "Adobe Illustrator",
+    category: "Creative-Suite AI Applications",
+    description: "Adobe Illustrator is a vector design app with AI-assisted creative workflows. It is used for logos, illustrations, and scalable graphics.",
+    freePlan: "No",
+    freeTrial: "Yes",
+    trialLength: "7 days",
+    creditCard: "Yes",
+    startingPrice: "$22.99/mo",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://www.adobe.com/products/illustrator.html"
+  },
+  {
+    name: "Adobe Premiere Pro",
+    category: "Creative-Suite AI Applications",
+    description: "Adobe Premiere Pro is video editing software with Adobe AI-assisted workflows. It is a professional tool for editing and producing video content.",
+    freePlan: "No",
+    freeTrial: "Yes",
+    trialLength: "7 days",
+    creditCard: "Yes",
+    startingPrice: "$22.99/mo",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://www.adobe.com/products/premiere.html"
+  },
+  {
+    name: "Adobe Acrobat",
+    category: "Creative-Suite AI Applications",
+    description: "Adobe Acrobat is a PDF and document tool with AI summaries and answers. It handles creating, editing, and working with PDF documents.",
+    freePlan: "No",
+    freeTrial: "Yes",
+    trialLength: "7 days",
+    creditCard: "Yes",
+    startingPrice: "$14.99/mo",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://www.adobe.com/acrobat.html"
+  },
+  {
+    name: "Renderforest",
+    category: "Creative-Suite AI Applications",
+    description: "Renderforest is an AI-assisted platform for video, logos, mockups, and websites. It combines several branding and content creation tools in one service.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$9/mo",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://www.renderforest.com/"
+  },
+
+  /* ---- Video & Avatar AI ---- */
+  {
+    name: "Synthesia",
+    category: "Video & Avatar AI",
+    description: "Synthesia is an AI avatar video creation platform for business and training. It turns scripts into presenter-led videos using AI avatars and voices.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$29/mo (Starter)",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://www.synthesia.io/"
+  },
+  {
+    name: "HeyGen",
+    category: "Video & Avatar AI",
+    description: "HeyGen is an AI video generator and digital-avatar platform. It produces avatar-led videos from text without conventional filming.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$29/mo (Creator)",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://www.heygen.com/"
+  },
+  {
+    name: "InVideo",
+    category: "Video & Avatar AI",
+    description: "InVideo is an AI video creation and editing platform. It is used to generate and edit videos for marketing and social content.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$28/month (Plus)",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://invideo.io/"
+  },
+  {
+    name: "Descript",
+    category: "Video & Avatar AI",
+    description: "Descript is an AI video, audio, and podcast editor. It allows editing recordings by editing the transcript text, alongside other AI production tools.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$16/month (Hobbyist, billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://www.descript.com/"
+  },
+  {
+    name: "Colossyan",
+    category: "Video & Avatar AI",
+    description: "Colossyan is an AI video generation platform focused on workplace training content. It converts documents and scripts into avatar-narrated training videos.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$59/mo (Professional, billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://www.colossyan.com/"
+  },
+  {
+    name: "Pictory",
+    category: "Video & Avatar AI",
+    description: "Pictory is an AI tool for turning text, scripts, and prompts into videos. It automates video production from written source material.",
+    freePlan: "No",
+    freeTrial: "Yes",
+    trialLength: "14 days",
+    creditCard: "No",
+    startingPrice: "$25/mo (Starter; $19/mo billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://pictory.ai/"
+  },
+
+  /* ---- Voice, Audio & Podcast AI ---- */
+  {
+    name: "Murf",
+    category: "Voice, Audio & Podcast AI",
+    description: "Murf is an AI voiceover and conversational voice platform. It generates voiceovers from text using a library of AI voices.",
+    freePlan: "Yes",
+    freeTrial: "No – free plan available",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$29/mo (Creator; $19/mo billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://murf.ai/"
+  },
+  {
+    name: "ElevenLabs",
+    category: "Voice, Audio & Podcast AI",
+    description: "ElevenLabs is an AI voice generation, speech, and voice-agent platform. It provides text-to-speech and voice tools used by creators and developers.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$5/mo (Starter)",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://elevenlabs.io/"
+  },
+  {
+    name: "LOVO",
+    category: "Voice, Audio & Podcast AI",
+    description: "LOVO is an AI voice generator and the Genny creative suite. It combines voice generation with related content creation tools.",
+    freePlan: "Yes",
+    freeTrial: "Yes",
+    trialLength: "14 days (Pro trial)",
+    creditCard: "No",
+    startingPrice: "$24/mo (Basic, billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://lovo.ai/"
+  },
+  {
+    name: "Speechify",
+    category: "Voice, Audio & Podcast AI",
+    description: "Speechify is a text-to-speech and voice AI platform. It converts written content into audio across devices and apps.",
+    freePlan: "Yes",
+    freeTrial: "No – free plan available",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$29/mo (Premium; $139/yr billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://speechify.com/"
+  },
+  {
+    name: "Listnr",
+    category: "Voice, Audio & Podcast AI",
+    description: "Listnr is an AI voice generation and audio/podcast creation suite. It converts text into voiceovers and supports audio content production.",
+    freePlan: "Yes",
+    freeTrial: "No – free plan available",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$19/mo (Individual)",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://listnr.ai/"
+  },
+  {
+    name: "Podcastle",
+    category: "Voice, Audio & Podcast AI",
+    description: "Podcastle is an AI creator platform for recording, editing, and video/audio production. It covers the recording and editing workflow for podcasts and related content.",
+    freePlan: "Yes",
+    freeTrial: "Yes",
+    trialLength: "7 days",
+    creditCard: "No",
+    startingPrice: "$14.99/mo (Storyteller; $11.99/mo billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://podcastle.ai/"
+  },
+
+  /* ---- Meeting Intelligence AI ---- */
+  {
+    name: "Fireflies.ai",
+    category: "Meeting Intelligence AI",
+    description: "Fireflies.ai provides AI notes, search, and workflow automation for meetings. It records and transcribes conversations so they can be searched and acted on afterwards.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$10/month per seat (Pro, billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://fireflies.ai/"
+  },
+  {
+    name: "Notta",
+    category: "Meeting Intelligence AI",
+    description: "Notta is an AI transcription and meeting-note tool. It converts meetings and recordings into transcripts and summaries.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$8.17/month (Pro, billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://www.notta.ai/en/"
+  },
+  {
+    name: "MeetGeek",
+    category: "Meeting Intelligence AI",
+    description: "MeetGeek is an AI meeting recorder, summary, and workflow assistant. It captures meetings automatically and turns them into notes and follow-up actions.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$9.99/month per seat (Pro, billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://meetgeek.ai/"
+  },
+  {
+    name: "Fathom",
+    category: "Meeting Intelligence AI",
+    description: "Fathom is an AI meeting notetaker with summaries and integrations. It records calls and produces structured notes that sync with other tools.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$16/month per user (Premium, billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://www.fathom.video/"
+  },
+  {
+    name: "Avoma",
+    category: "Meeting Intelligence AI",
+    description: "Avoma is an AI platform for note-taking, scheduling, coaching, and forecasting. It supports the full meeting workflow from scheduling through to post-meeting analysis.",
+    freePlan: "No",
+    freeTrial: "Yes",
+    trialLength: "14 days",
+    creditCard: "No – payment card not required for trial",
+    startingPrice: "$19/user/mo",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://www.avoma.com/"
+  },
+
+  /* ---- AI Website & Store Builders ---- */
+  {
+    name: "Hostinger Website Builder",
+    category: "AI Website & Store Builders",
+    description: "Hostinger Website Builder is an AI website builder with templates, ecommerce, and hosting. It bundles site creation and hosting into one service.",
+    freePlan: "No",
+    freeTrial: "Yes",
+    trialLength: "14 days",
+    creditCard: "Not publicly stated by provider",
+    startingPrice: "$2.99/month (Premium, 48-month term; renews at $10.99/month)",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://www.hostinger.com/website-builder"
+  },
+  {
+    name: "Hostinger Horizons",
+    category: "AI Website & Store Builders",
+    description: "Hostinger Horizons is an AI no-code web app and site builder that works from prompts. It generates functioning web apps from natural-language descriptions.",
+    freePlan: "Yes",
+    freeTrial: "No – free plan available",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$6.99/mo (Explorer, 12-month term)",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://www.hostinger.com/horizons"
+  },
+  {
+    name: "Wix",
+    category: "AI Website & Store Builders",
+    description: "Wix is a website builder with built-in AI tools and a free entry plan. It supports building and hosting sites with drag-and-drop and AI-assisted features.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$17/month (Light, billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://www.wix.com/"
+  },
+  {
+    name: "Shopify AI Store Builder",
+    category: "AI Website & Store Builders",
+    description: "Shopify AI Store Builder is an AI-assisted store builder for ecommerce setup. It helps new merchants generate an online store quickly.",
+    freePlan: "No",
+    freeTrial: "Yes",
+    trialLength: "3 days free, then $1 extension",
+    creditCard: "No",
+    startingPrice: "$39/month (Basic)",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://www.shopify.com/tools/ai-store-builder"
+  },
+  {
+    name: "Shopify Website Builder",
+    category: "AI Website & Store Builders",
+    description: "Shopify Website Builder is Shopify's AI website builder for online stores and sites. It creates commerce-ready websites on the Shopify platform.",
+    freePlan: "No",
+    freeTrial: "Yes",
+    trialLength: "3 days (then $1/month for 3 months)",
+    creditCard: "No",
+    startingPrice: "$39/month (Basic)",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://www.shopify.com/website/builder"
+  },
+  {
+    name: "Squarespace AI Website Builder",
+    category: "AI Website & Store Builders",
+    description: "Squarespace offers an AI-guided website builder with trial-based entry. It produces designed websites through a guided, AI-assisted setup.",
+    freePlan: "No",
+    freeTrial: "Yes",
+    trialLength: "14 days",
+    creditCard: "No",
+    startingPrice: "$19/mo",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://www.squarespace.com/free-website-builder-trial"
+  },
+  {
+    name: "10Web AI Website Builder",
+    category: "AI Website & Store Builders",
+    description: "10Web provides AI website generation, editing, hosting, and optimisation. It generates WordPress-based sites with AI and manages the hosting behind them.",
+    freePlan: "No",
+    freeTrial: "Yes",
+    trialLength: "7 days (after free generation)",
+    creditCard: "Yes",
+    startingPrice: "$10/month (AI Starter, billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://10web.io/ai-website-builder/"
+  },
+  {
+    name: "Durable AI Website Builder",
+    category: "AI Website & Store Builders",
+    description: "Durable is an AI website builder for small businesses. It generates a complete small-business site in a short, automated process.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "From $22/month (billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://durable.co/ai-website-builder"
+  },
+  {
+    name: "Framer AI Website Builder",
+    category: "AI Website & Store Builders",
+    description: "Framer is a no-code AI website builder for professional sites. It is aimed at designers and builders producing polished marketing sites.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$10/month (Basic, billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "View Product",
+    link: "https://www.framer.com/"
+  },
+  {
+    name: "Webflow AI Site Builder",
+    category: "AI Website & Store Builders",
+    description: "Webflow is an AI-native website builder and optimisation platform. It combines visual site building with hosting and site optimisation features.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$15/mo (Basic, billed yearly)",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://webflow.com/"
+  },
+
+  /* ---- Customer Engagement, Chatbots & Email AI ---- */
+  {
+    name: "Tidio",
+    category: "Customer Engagement, Chatbots & Email AI",
+    description: "Tidio is a customer support platform with chat, automation, and AI agent options. It provides live chat and automated conversation tools for websites.",
+    freePlan: "Yes",
+    freeTrial: "Yes",
+    trialLength: "7 days",
+    creditCard: "No",
+    startingPrice: "$24.17/mo (Starter plan)",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://www.tidio.com/"
+  },
+  {
+    name: "Tidio Lyro AI Agent",
+    category: "Customer Engagement, Chatbots & Email AI",
+    description: "Lyro is Tidio's AI agent product for automated support and sales chat. It answers customer questions using a business's own support content.",
+    freePlan: "No",
+    freeTrial: "Yes",
+    trialLength: "7 days",
+    creditCard: "No",
+    startingPrice: "$32.50/mo (from 50 AI conversations)",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://www.tidio.com/ai-agent/"
+  },
+  {
+    name: "Landbot",
+    category: "Customer Engagement, Chatbots & Email AI",
+    description: "Landbot is a no-code chatbot builder for website and WhatsApp lead flows. It builds conversational flows that capture and qualify leads.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "€40/mo",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://landbot.io/"
+  },
+  {
+    name: "ManyChat",
+    category: "Customer Engagement, Chatbots & Email AI",
+    description: "ManyChat is a chat marketing automation platform for social and messaging channels. It automates conversations across channels such as Instagram, Messenger, and WhatsApp.",
+    freePlan: "Yes",
+    freeTrial: "Yes",
+    trialLength: "14 days (Pro trial)",
+    creditCard: "No",
+    startingPrice: "From $14/month (Essential)",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://manychat.com/"
+  },
+  {
+    name: "ManyChat AI",
+    category: "Customer Engagement, Chatbots & Email AI",
+    description: "ManyChat AI is the AI layer inside ManyChat for automated replies and guided conversations. It adds AI-driven responses to ManyChat's automation flows.",
+    freePlan: "No",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "Yes",
+    startingPrice: "$29/month (AI add-on; requires a paid plan)",
+    affiliateAvailable: "Yes",
+    buttonText: "View Product",
+    link: "https://manychat.com/product/ai"
+  },
+  {
+    name: "GetResponse",
+    category: "Customer Engagement, Chatbots & Email AI",
+    description: "GetResponse is an email marketing and automation platform with AI tools. It covers email campaigns, automation, and related marketing features.",
+    freePlan: "Yes",
+    freeTrial: "Yes",
+    trialLength: "14 days of premium features",
+    creditCard: "No",
+    startingPrice: "$19/month (Starter; $15.58/month billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "Start Free Trial",
+    link: "https://www.getresponse.com/"
+  },
+  {
+    name: "HubSpot",
+    category: "Customer Engagement, Chatbots & Email AI",
+    description: "HubSpot is a CRM and customer platform with free tools and AI-assisted workflows. It spans marketing, sales, and service on a shared customer database.",
+    freePlan: "Yes",
+    freeTrial: "No",
+    trialLength: "N/A",
+    creditCard: "No",
+    startingPrice: "$20/month per seat (Starter; $15/month billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://www.hubspot.com/"
+  },
+  {
+    name: "Kit",
+    category: "Customer Engagement, Chatbots & Email AI",
+    description: "Kit is an email marketing and newsletter growth platform for creators. It focuses on audience growth, automation, and monetisation for individual creators.",
+    freePlan: "Yes",
+    freeTrial: "Yes",
+    trialLength: "14 days",
+    creditCard: "No",
+    startingPrice: "$39/month (Creator; $33/month billed annually)",
+    affiliateAvailable: "Yes",
+    buttonText: "Get Free Access",
+    link: "https://kit.com/"
+  }
+];
+
+/* ============================================================
+   RENDERING — the layout never needs editing when products
+   are added, removed or updated in the array above.
+   ============================================================ */
+function esc(s){
+  return String(s)
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+}
+function slug(s){
+  return s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
+}
+
+function buildNav(){
+  const nav = document.getElementById("catNav");
+  nav.innerHTML = categories.map(c =>
+    '<a href="#cat-' + slug(c.name) + '" style="--catcolor:' + c.color + '">' +
+      '<span class="dot" aria-hidden="true"></span>' + esc(c.name) +
+    '</a>'
+  ).join("");
+}
+
+function buildDirectory(){
+  const dir = document.getElementById("directory");
+  dir.innerHTML = categories.map(c => {
+    const items = products.filter(p => p.category === c.name);
+    if(!items.length) return "";
+    return (
+      '<section class="category" id="cat-' + slug(c.name) + '" style="--accent:' + c.color + '">' +
+        '<h2>' + esc(c.name) + '</h2>' +
+        '<div class="grid">' + items.map(cardHTML).join("") + '</div>' +
+      '</section>'
+    );
+  }).join("");
+}
+
+function cardHTML(p){
+  const searchText = (p.name + " " + p.category + " " + p.description).toLowerCase();
+  return (
+    '<article class="card" data-search="' + esc(searchText) + '">' +
+      '<h3>' + esc(p.name) + '</h3>' +
+      '<p class="desc">' + esc(p.description) + '</p>' +
+      '<div class="facts">' +
+        '<div class="facts-title">Quick Facts</div>' +
+        '<dl>' +
+          '<dt>Category</dt><dd>' + esc(p.category) + '</dd>' +
+          '<dt>Free Plan</dt><dd>' + esc(p.freePlan) + '</dd>' +
+          '<dt>Free Trial</dt><dd>' + esc(p.freeTrial) + '</dd>' +
+          '<dt>Trial Length</dt><dd>' + esc(p.trialLength) + '</dd>' +
+          '<dt>Credit Card Required</dt><dd>' + esc(p.creditCard) + '</dd>' +
+          '<dt>Starting Price</dt><dd>' + esc(p.startingPrice) + '</dd>' +
+        '</dl>' +
+      '</div>' +
+      '<a class="cta" href="' + esc(p.link) + '" target="_blank" rel="noopener noreferrer">' +
+        esc(p.buttonText) +
+      '</a>' +
+    '</article>'
+  );
+}
+
+/* ---- Instant search across name, category and description ---- */
+function initSearch(){
+  const input = document.getElementById("search");
+  const count = document.getElementById("resultCount");
+  const noResults = document.getElementById("noResults");
+  const total = products.length;
+  count.textContent = total + " tools across " + categories.length + " categories";
+
+  input.addEventListener("input", function(){
+    const q = input.value.trim().toLowerCase();
+    let visible = 0;
+
+    document.querySelectorAll("section.category").forEach(function(section){
+      let sectionVisible = 0;
+      section.querySelectorAll(".card").forEach(function(card){
+        const match = !q || card.getAttribute("data-search").indexOf(q) !== -1;
+        card.style.display = match ? "" : "none";
+        if(match) sectionVisible++;
+      });
+      section.style.display = sectionVisible ? "" : "none";
+      visible += sectionVisible;
+    });
+
+    noResults.classList.toggle("show", visible === 0);
+    count.textContent = q
+      ? visible + " of " + total + " tools match"
+      : total + " tools across " + categories.length + " categories";
+  });
+}
+
+/* ---- Highlight the category currently in view ---- */
+function initScrollSpy(){
+  const links = Array.prototype.slice.call(document.querySelectorAll("nav.cats a"));
+  const sections = Array.prototype.slice.call(document.querySelectorAll("section.category"));
+  if(!("IntersectionObserver" in window) || !sections.length) return;
+
+  const byId = {};
+  links.forEach(function(l){ byId[l.getAttribute("href").slice(1)] = l; });
+
+  const observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        links.forEach(function(l){ l.classList.remove("active"); });
+        const link = byId[entry.target.id];
+        if(link){
+          link.classList.add("active");
+          if(typeof link.scrollIntoView === "function"){
+            link.scrollIntoView({block:"nearest", inline:"nearest"});
+          }
+        }
+      }
+    });
+  }, {rootMargin:"-15% 0px -70% 0px"});
+
+  sections.forEach(function(s){ observer.observe(s); });
+}
+
+buildNav();
+buildDirectory();
+initSearch();
+initScrollSpy();
+
+/* ---- Privacy Policy view (separate section, toggled from footer) ---- */
+function initPrivacyPolicy(){
+  const policy = document.getElementById("privacyPolicy");
+  const link   = document.getElementById("privacyLink");
+  const back   = document.getElementById("privacyBack");
+  if(!policy || !link) return;
+
+  const hideForPolicy = [
+    document.querySelector("header.site"),
+    document.querySelector(".search-area"),
+    document.querySelector("nav.cats"),
+    document.querySelector("main.wrap")
+  ];
+
+  function showPolicy(){
+    hideForPolicy.forEach(function(el){ if(el) el.hidden = true; });
+    policy.hidden = false;
+    window.scrollTo(0, 0);
+  }
+  function hidePolicy(){
+    policy.hidden = true;
+    hideForPolicy.forEach(function(el){ if(el) el.hidden = false; });
+    window.scrollTo(0, 0);
+  }
+
+  link.addEventListener("click", function(e){ e.preventDefault(); showPolicy(); });
+  if(back) back.addEventListener("click", function(e){ e.preventDefault(); hidePolicy(); });
+
+  if(window.location.hash === "#privacyPolicy") showPolicy();
+}
+
+initPrivacyPolicy();
+</script>
+</body>
+</html>
